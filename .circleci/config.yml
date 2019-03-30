@@ -10,8 +10,13 @@ jobs:
             keys:
               - composer-v1-{{ checksum "composer.lock" }}
               - composer-v1-
-      - run: composer install -n --prefer-dist
+      - run: 
+          name: Install dependencies (Composer)
+          command: composer install -n --prefer-dist
       - save_cache:
           key: composer-v1-{{ checksum "composer.lock" }}
           paths:
             - vendor
+      - run:
+          name: Run PHPCS
+          command: vendor/bin/phpcs --standard=psr2 app
