@@ -17,6 +17,9 @@ jobs:
           key: composer-v1-{{ checksum "composer.lock" }}
           paths:
             - vendor
+      - run: 
+          name: Generate Key
+          command: php artisan key:generate --ansi
       - run:
           name: Run PHPCS PSR2
           command: vendor/bin/phpcs --standard=psr2 app
