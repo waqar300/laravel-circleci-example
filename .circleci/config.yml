@@ -10,8 +10,8 @@ workflows:
             - test
 
 jobs: 
-  build: 
-    test:  
+  test: 
+    docker:  
       - image: ambientum/php:7.3
     steps:
       - checkout
