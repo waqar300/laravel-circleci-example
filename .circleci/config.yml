@@ -7,10 +7,10 @@ workflows:
       - test
       - deploy:
           filters:
-          branches:
-            only:
-            - develop
-            - master
+            branches:
+              only:
+                - develop
+                - master
           requires:
             - test
 
