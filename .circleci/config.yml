@@ -1,8 +1,17 @@
 version: 2
 
+workflows:
+  version: 2
+  test_and_deploy:
+    jobs:
+      - test
+      - deploy:
+          requires:
+            - test
+
 jobs: 
   build: 
-    docker:  
+    test:  
       - image: ambientum/php:7.3
     steps:
       - checkout
