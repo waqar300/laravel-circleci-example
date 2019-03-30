@@ -18,5 +18,5 @@ jobs:
           paths:
             - vendor
       - run:
-          name: Run PHPCS
+          name: Run PHPCS PSR2
           command: vendor/bin/phpcs --standard=psr2 app
