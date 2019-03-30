@@ -23,3 +23,14 @@ jobs:
       - run:
           name: Run PHPUnit
           command: vendor/bin/phpunit
+  
+  deploy:
+    docker:
+      - image: google/cloud-sdk
+    steps:
+      - run:
+          name: Setup gcloud
+          command: |
+            echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
+            gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+            gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
