@@ -1,0 +1,50 @@
+version: 2
+
+workflows:
+  version: 2
+  test_and_deploy:
+    jobs:
+      - test
+      - deploy:
+          filters:
+            branches:
+              only:
+                - develop
+                - master
+          requires:
+            - test
+
+jobs: 
+  test: 
+    docker:  
+      - image: ambientum/php:7.3
+    steps:
+      - checkout
+      - restore_cache:
+            keys:
+              - composer-v1-{{ checksum "composer.lock" }}
+              - composer-v1-
+      - run: 
+          name: Install dependencies (Composer)
+          command: composer create-project -n --prefer-dist
+      - save_cache:
+          key: composer-v1-{{ checksum "composer.lock" }}
+          paths:
+            - vendor
+      - run:
+          name: Run PHPCS PSR2
+          command: vendor/bin/phpcs --standard=psr2 app
+      - run:
+          name: Run PHPUnit
+          command: vendor/bin/phpunit
+  
+  deploy:
+    docker:
+      - image: google/cloud-sdk
+    steps:
+      - run:
+          name: Setup gcloud
+          command: |
+            echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
+            gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+            gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
