@@ -10,10 +10,6 @@ RUN composer install -n --prefer-dist --no-scripts --no-dev
 
 COPY . /var/www/app/
 
-RUN composer create-project
-
-RUN php artisan storage:link
-
 EXPOSE 8083
 
 RUN chown -R ambientum:ambientum storage

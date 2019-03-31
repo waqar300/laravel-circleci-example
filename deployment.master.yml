@@ -12,6 +12,7 @@ spec:
       maxSurge: 1
       maxUnavailable: 1
     type: RollingUpdate
+  template:
     spec:
       containers:
       - image: docker-image-laravel-circleci-example
