@@ -42,12 +42,13 @@ jobs:
     docker:
       - image: google/cloud-sdk
     environment:
-      - TAG: "gcr.io/$GOOGLE_PROJECT_ID/laravel-circleci-example:${CIRCLE_SHA1}"
+      - TAG: "gcr.io/${GOOGLE_PROJECT_ID}/laravel-circleci-example:${CIRCLE_SHA1}"
     steps:
       - checkout
       - run:
           name: Setup gcloud
           command: |
+            echo ${TAG}
             echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
             gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
             gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
