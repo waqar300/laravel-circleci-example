@@ -46,7 +46,6 @@ jobs:
       - run:
           name: Setup gcloud
           command: |
-            echo ${TAG}
             echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
             gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
             gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
@@ -57,5 +56,5 @@ jobs:
       - run:
           name: Deploy on Kubernetes
           command: |
-            sed -i.bak 's#docker-image-laravel-circleci-example#gcr.io/$GOOGLE_PROJECT_ID/laravel-circleci-example:${CIRCLE_SHA1}#' deployment.${CIRCLE_BRANCH}.yml
+            sed -i.bak "s#docker-image-laravel-circleci-example#gcr.io/$GOOGLE_PROJECT_ID/laravel-circleci-example:$CIRCLE_SHA1#" deployment.${CIRCLE_BRANCH}.yml
             kubectl apply -f deployment.${CIRCLE_BRANCH}.yml
