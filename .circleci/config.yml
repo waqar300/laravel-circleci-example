@@ -50,4 +50,4 @@ jobs:
             gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
       - run:
           name: Google Cloud Build
-          command: gcloud builds submit --tag gcr.io/$GOOGLE_PROJECT_ID/laravel-circleci-example:${CIRCLE_SHA1}
+          command: gcloud builds submit --tag gcr.io/$GOOGLE_PROJECT_ID/laravel-circleci-example:${CIRCLE_SHA1} .
