@@ -13,6 +13,10 @@ spec:
       maxUnavailable: 1
     type: RollingUpdate
   template:
+    metadata:
+      labels:
+        app: laravel-cicleci-example
+      name: laravel-cicleci-example
     spec:
       containers:
       - image: docker-image-laravel-circleci-example
