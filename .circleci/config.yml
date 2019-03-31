@@ -41,8 +41,6 @@ jobs:
   deploy:
     docker:
       - image: google/cloud-sdk
-    environment:
-      - TAG: "gcr.io/${GOOGLE_PROJECT_ID}/laravel-circleci-example:${CIRCLE_SHA1}"
     steps:
       - checkout
       - run:
@@ -54,9 +52,9 @@ jobs:
             gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
       - run:
           name: Google Cloud Build
-          command: gcloud builds submit --tag ${TAG} .
+          command: gcloud builds submit --tag gcr.io/$GOOGLE_PROJECT_ID/laravel-circleci-example:${CIRCLE_SHA1} .
       - run:
           name: Deploy on Kubernetes
           command: |
-            sed -i.bak 's#docker-image-laravel-circleci-example#${TAG}#' deployment.${CIRCLE_BRANCH}.yml
+            sed -i.bak 's#docker-image-laravel-circleci-example#gcr.io/$GOOGLE_PROJECT_ID/laravel-circleci-example:${CIRCLE_SHA1}#' deployment.${CIRCLE_BRANCH}.yml
             kubectl apply -f deployment.${CIRCLE_BRANCH}.yml
