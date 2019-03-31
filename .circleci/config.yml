@@ -55,7 +55,7 @@ jobs:
           name: Google Cloud Build
           command: gcloud builds submit --tag ${TAG} .
       - run:
-        name: Deploy on Kubernetes
-        command: |
-          sed -i.bak 's#docker-image-laravel-circleci-example#${TAG}#' deployment.${CIRCLE_BRANCH}.yml
-          kubectl apply -f deployment.${CIRCLE_BRANCH}.yml
+          name: Deploy on Kubernetes
+          command: |
+            sed -i.bak 's#docker-image-laravel-circleci-example#${TAG}#' deployment.${CIRCLE_BRANCH}.yml
+            kubectl apply -f deployment.${CIRCLE_BRANCH}.yml
